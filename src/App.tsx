@@ -1,6 +1,8 @@
-import React from 'react';
-
-import { Box, Button, Card, Container, Grid, Stack, TextField, Typography } from '@mui/material';
+import {
+    Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem,
+    TimelineOppositeContent, TimelineSeparator
+} from '@mui/lab';
+import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
 
 function App() {
   return (
@@ -27,63 +29,42 @@ function App() {
         <Typography variant="h5" fontWeight={700} mb={2}>
           Responses
         </Typography>
-        <Card sx={{ bgcolor: "#E4E4E4", mb: 4 }}>
-          <Grid container spacing={2} p={4}>
-            <Grid item sm={12} md={2}>
-              <Typography variant="subtitle1" fontWeight={500} pl={2}>
-                Prompt:
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={10}>
-              <Typography variant="body1" pl={2}>
-                Write a poem about dinousaurs in the snow
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={2}>
-              <Typography variant="subtitle1" fontWeight={500} pl={2}>
-                Response:
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={10}>
-              <Typography variant="body1" pl={2}>
-                Dinosaurs in the snow How delightful it must have been to wander
-                through the cold with your long, scaly tails and your huge,
-                toothy jaws it must have been a sight to see these acient
-                creatures Roaming the frozen earth
-              </Typography>
-            </Grid>
-          </Grid>
-        </Card>
-        <Card sx={{ bgcolor: "#E4E4E4" }}>
-          <Grid container spacing={2} p={4}>
-            <Grid item sm={12} md={2}>
-              <Typography variant="subtitle1" fontWeight={500} pl={2}>
-                Prompt:
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={10}>
-              <Typography variant="body1" pl={2}>
-                Write a poem about dinousaurs in the snow
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={2}>
-              <Typography variant="subtitle1" fontWeight={500} pl={2}>
-                Response:
-              </Typography>
-            </Grid>
-            <Grid item sm={12} md={10}>
-              <Typography variant="body1" pl={2}>
-                Dinosaurs in the snow How delightful it must have been to wander
-                through the cold with your long, scaly tails and your huge,
-                toothy jaws it must have been a sight to see these acient
-                creatures Roaming the frozen earth
-              </Typography>
-            </Grid>
-          </Grid>
-        </Card>
+        <CustomizedTimeline />
       </Box>
     </Container>
   );
 }
 
 export default App;
+
+function CustomizedTimeline() {
+  const prompt = "Write a poem about dinousaurs in the snow?";
+  const response =
+    "Dinosaurs in the snow How delightful it must have been to wander through the cold with your long, scaly tails and your huge, toothy jaws it must have been a sight to see these acient creatures Roaming the frozen earth";
+  return (
+    <Timeline position="alternate">
+      {[1, 2, 3, 4, 5].map(i => {
+        return (
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ m: "auto 0" }}>
+              10:00 am
+            </TimelineOppositeContent>
+            <TimelineSeparator>
+              <TimelineConnector />
+              <TimelineDot color="primary"></TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent sx={{ p: 2 }}>
+              <Typography variant="h6" component="span">
+                {prompt}
+              </Typography>
+              <Typography variant="body1" fontStyle="italic">
+                {response}
+              </Typography>
+            </TimelineContent>
+          </TimelineItem>
+        );
+      })}
+    </Timeline>
+  );
+}
