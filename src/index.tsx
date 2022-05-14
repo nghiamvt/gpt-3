@@ -5,6 +5,7 @@ import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 import App from './App';
+import { AppProvider } from './context';
 
 const theme = createTheme({
   typography: {
@@ -32,7 +33,9 @@ root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </ThemeProvider>
   </React.StrictMode>,
 );

@@ -2,8 +2,14 @@ import { FunctionComponent } from 'react';
 
 import { Avatar as MuiAvatar, AvatarProps as MuiAvatarProps, Badge } from '@mui/material';
 
+export enum Status {
+  ONLINE = "online",
+  OFFLINE = "offline",
+  BUSY = "busy",
+  AWAY = "away",
+}
 export type AvatarProps = MuiAvatarProps & {
-  status?: "online" | "offline" | "busy" | "away";
+  status?: Status;
 };
 
 const colorStatusMap = {

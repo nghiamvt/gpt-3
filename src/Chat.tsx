@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import MicIcon from '@mui/icons-material/Mic';
@@ -9,45 +9,51 @@ import { IconButton, OutlinedInput, Paper, Stack, Typography } from '@mui/materi
 import { grey } from '@mui/material/colors';
 
 import Avatar from './Avatar';
+import { useAppContext } from './context';
 import Message from './Message';
 
-const Header = () => (
-  <Stack
-    direction="row"
-    justifyContent="space-between"
-    alignItems="center"
-    borderBottom={`1px solid ${grey[300]}`}
-  >
-    <Stack direction="row" spacing={2} p="0.75rem 1.25rem">
-      <Avatar alt="Remy Sharp" src="/img/avatar/1.png" />
-      <Stack>
-        <Typography variant="subtitle1" fontWeight={500} lineHeight={1.2}>
-          Felecia Rower
-        </Typography>
-        <Typography variant="caption" color={grey[500]}>
-          Employee
-        </Typography>
+const Header = () => {
+  const { model } = useAppContext();
+  return (
+    <Stack
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      borderBottom={`1px solid ${grey[300]}`}
+    >
+      <Stack direction="row" spacing={2} p="0.75rem 1.25rem">
+        <Avatar alt={model.name} src={model.avatar} status={model.status} />
+        <Stack>
+          <Typography variant="subtitle1" fontWeight={500} lineHeight={1.2}>
+            {model.name}
+          </Typography>
+          <Typography variant="caption" color={grey[500]}>
+            {`$${model.price}/1K tokens`}
+          </Typography>
+        </Stack>
+      </Stack>
+      <Stack direction="row">
+        <IconButton>
+          <PhoneOutlinedIcon />
+        </IconButton>
+        <IconButton>
+          <VideocamOutlinedIcon />
+        </IconButton>
+        <IconButton>
+          <SearchOutlinedIcon />
+        </IconButton>
       </Stack>
     </Stack>
-    <Stack direction="row">
-      <IconButton>
-        <PhoneOutlinedIcon />
-      </IconButton>
-      <IconButton>
-        <VideocamOutlinedIcon />
-      </IconButton>
-      <IconButton>
-        <SearchOutlinedIcon />
-      </IconButton>
-    </Stack>
-  </Stack>
-);
+  );
+};
 
 export type ChatProps = {};
 
 const Chat: React.FunctionComponent<ChatProps> = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const bottomRef = React.useRef<HTMLDivElement>(null);
+
+  // const {} = useAppContext();
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });

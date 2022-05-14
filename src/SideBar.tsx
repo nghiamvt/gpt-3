@@ -1,47 +1,18 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 
 import {
     List, ListItem, ListItemAvatar, ListItemButton, ListItemText, OutlinedInput, Stack
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
-import Avatar, { AvatarProps } from './Avatar';
-
-export const ChatList = [
-  {
-    avatar: "/img/avatar/1.png",
-    status: "online",
-    name: 'Felecia Rower"',
-    lastMessage:
-      "Hey John, I am looking for the best admin template. Could you please help me to find it out?",
-  },
-  {
-    avatar: "/img/avatar/2.png",
-    status: "offline",
-    name: 'Felecia Rower"',
-    lastMessage:
-      "Hey John, I am looking for the best admin template. Could you please help me to find it out?",
-  },
-  {
-    avatar: "/img/avatar/3.png",
-    status: "busy",
-    name: 'Felecia Rower"',
-    lastMessage:
-      "Hey John, I am looking for the best admin template. Could you please help me to find it out?",
-  },
-  {
-    avatar: "/img/avatar/4.png",
-    status: "away",
-    name: 'Felecia Rower"',
-    lastMessage:
-      "Hey John, I am looking for the best admin template. Could you please help me to find it out?",
-  },
-];
+import { Models } from './api';
+import Avatar, { AvatarProps, Status } from './Avatar';
+import { useAppContext } from './context';
 
 export type SideBarProps = {};
 
 const SideBar: FunctionComponent<SideBarProps> = () => {
-  const [selected, setSelected] = useState(0);
+  const { model, setModel } = useAppContext();
   return (
     <Stack width="100%">
       <Stack
@@ -51,7 +22,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
         borderBottom={`1px solid ${grey[300]}`}
       >
         <Stack direction="row" spacing={2} p="0.75rem 1.25rem">
-          <Avatar src="" status="online" />
+          <Avatar src="" status={Status.ONLINE} />
         </Stack>
         <OutlinedInput
           size="small"
@@ -62,15 +33,17 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
       </Stack>
       <Stack flexGrow={1} spacing={2} px={1}>
         <List>
-          {ChatList.map((item, index) => {
+          {Models.map((item, index) => {
+            const lastMsg =
+              "Hey John, I am looking for the best admin template. Could you please help me to find it out?";
             return (
               <ListItem
                 disablePadding
                 key={index}
-                onClick={() => setSelected(index)}
+                onClick={() => setModel(item.engine)}
               >
                 <ListItemButton
-                  selected={selected === index}
+                  selected={model.engine === item.engine}
                   sx={{ borderRadius: 2 }}
                 >
                   <ListItemAvatar>
@@ -81,7 +54,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.name}
-                    secondary={item.lastMessage}
+                    secondary={lastMsg}
                     secondaryTypographyProps={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",
