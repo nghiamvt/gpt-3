@@ -12,6 +12,91 @@ import Avatar from './Avatar';
 import { useAppContext } from './context';
 import Message from './Message';
 
+export type ChatProps = {};
+
+const Chat: React.FunctionComponent<ChatProps> = () => {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const bottomRef = React.useRef<HTMLDivElement>(null);
+
+  const { messages, sendMessage } = useAppContext();
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  React.useEffect(() => {
+    scrollToBottom();
+  }, []);
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!inputRef.current) return;
+    scrollToBottom();
+    sendMessage({
+      name: "",
+      message: inputRef.current.value,
+      isResponse: false,
+      created: Math.round(new Date().getTime() / 1000),
+    });
+    inputRef.current.value = "";
+  };
+
+  return (
+    <Stack bgcolor="#F7F7F8" height="100%">
+      <Header />
+      <Stack
+        flexGrow={1}
+        p={2}
+        spacing={2}
+        sx={{ overflowY: "auto", scrollBehavior: "smooth", height: "100%" }}
+      >
+        {messages.map((msg, index) => {
+          const isMine = msg.isResponse;
+          const avatar = isMine ? "https://i.pravatar.cc/300" : "";
+          return (
+            <Stack
+              direction={isMine ? "row" : "row-reverse"}
+              spacing={2}
+              key={index}
+            >
+              <Avatar
+                alt={msg.name}
+                src={avatar}
+                sx={{ height: 32, width: 32 }}
+              />
+              <Message isMine isTyping={!msg.message}>
+                {msg.message}
+              </Message>
+            </Stack>
+          );
+        })}
+
+        <div ref={bottomRef} />
+      </Stack>
+      <Paper sx={{ m: 2, p: 1 }}>
+        <form onSubmit={handleSubmit}>
+          <OutlinedInput
+            size="small"
+            autoFocus
+            fullWidth
+            placeholder="Type your mesage here..."
+            sx={{ fieldset: { border: "none" } }}
+            inputRef={inputRef}
+          />
+          <IconButton>
+            <MicIcon />
+          </IconButton>
+          <IconButton>
+            <AttachmentIcon />
+          </IconButton>
+        </form>
+      </Paper>
+    </Stack>
+  );
+};
+
+export default Chat;
+
 const Header = () => {
   const { model } = useAppContext();
   return (
@@ -46,86 +131,3 @@ const Header = () => {
     </Stack>
   );
 };
-
-export type ChatProps = {};
-
-const Chat: React.FunctionComponent<ChatProps> = () => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const bottomRef = React.useRef<HTMLDivElement>(null);
-
-  // const {} = useAppContext();
-
-  const scrollToBottom = () => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  React.useEffect(() => {
-    scrollToBottom();
-  }, []);
-
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!inputRef.current) return;
-    console.log("inputRef.current.value", inputRef.current.value);
-    scrollToBottom();
-    inputRef.current.value = "";
-  };
-
-  return (
-    <Stack bgcolor="#F7F7F8" height="100%">
-      <Header />
-      <Stack
-        flexGrow={1}
-        p={2}
-        spacing={2}
-        sx={{ overflowY: "auto", scrollBehavior: "smooth", height: "100%" }}
-      >
-        <Stack direction="row-reverse" spacing={2}>
-          <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
-          <Message isMine>How can we help? We're here for you!</Message>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
-          <Message isTyping />
-        </Stack>
-        <Stack direction="row-reverse" spacing={2}>
-          <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
-          <Message isMine>How can we help? We're here for you!</Message>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
-          <Message isTyping />
-        </Stack>
-        <Stack direction="row-reverse" spacing={2}>
-          <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
-          <Message isMine>How can we help? We're here for you!</Message>
-        </Stack>
-        <Stack direction="row" spacing={2}>
-          <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
-          <Message isTyping />
-        </Stack>
-        <div ref={bottomRef} />
-      </Stack>
-      <Paper sx={{ m: 2, p: 1 }}>
-        <form onSubmit={handleSubmit}>
-          <OutlinedInput
-            size="small"
-            autoFocus
-            fullWidth
-            placeholder="Type your mesage here..."
-            sx={{ fieldset: { border: "none" } }}
-            inputRef={inputRef}
-          />
-          <IconButton>
-            <MicIcon />
-          </IconButton>
-          <IconButton>
-            <AttachmentIcon />
-          </IconButton>
-        </form>
-      </Paper>
-    </Stack>
-  );
-};
-
-export default Chat;
