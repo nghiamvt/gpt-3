@@ -64,7 +64,6 @@ const Chat: FunctionComponent<ChatProps> = () => {
         <form
           onSubmit={e => {
             e.preventDefault();
-            console.log(message);
             setMessage("");
           }}
         >
@@ -74,6 +73,7 @@ const Chat: FunctionComponent<ChatProps> = () => {
             fullWidth
             placeholder="Type your mesage here..."
             sx={{ fieldset: { border: "none" } }}
+            value={message}
             onChange={e => setMessage(e.target.value)}
           />
 
