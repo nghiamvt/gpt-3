@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import React from 'react';
 
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import MicIcon from '@mui/icons-material/Mic';
@@ -45,12 +45,35 @@ const Header = () => (
 
 export type ChatProps = {};
 
-const Chat: FunctionComponent<ChatProps> = () => {
-  const [message, setMessage] = useState("");
+const Chat: React.FunctionComponent<ChatProps> = () => {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const bottomRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  React.useEffect(() => {
+    scrollToBottom();
+  }, []);
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!inputRef.current) return;
+    console.log("inputRef.current.value", inputRef.current.value);
+    scrollToBottom();
+    inputRef.current.value = "";
+  };
+
   return (
     <Stack bgcolor="#F7F7F8" height="100%">
       <Header />
-      <Stack flexGrow={1} p={2} spacing={2}>
+      <Stack
+        flexGrow={1}
+        p={2}
+        spacing={2}
+        sx={{ overflowY: "auto", scrollBehavior: "smooth", height: "100%" }}
+      >
         <Stack direction="row-reverse" spacing={2}>
           <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
           <Message isMine>How can we help? We're here for you!</Message>
@@ -59,24 +82,34 @@ const Chat: FunctionComponent<ChatProps> = () => {
           <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
           <Message isTyping />
         </Stack>
+        <Stack direction="row-reverse" spacing={2}>
+          <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
+          <Message isMine>How can we help? We're here for you!</Message>
+        </Stack>
+        <Stack direction="row" spacing={2}>
+          <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
+          <Message isTyping />
+        </Stack>
+        <Stack direction="row-reverse" spacing={2}>
+          <Avatar alt="Remy Sharp" src="" sx={{ height: 32, width: 32 }} />
+          <Message isMine>How can we help? We're here for you!</Message>
+        </Stack>
+        <Stack direction="row" spacing={2}>
+          <Avatar src="/img/avatar/2.png" sx={{ height: 32, width: 32 }} />
+          <Message isTyping />
+        </Stack>
+        <div ref={bottomRef} />
       </Stack>
       <Paper sx={{ m: 2, p: 1 }}>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            setMessage("");
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <OutlinedInput
             size="small"
             autoFocus
             fullWidth
             placeholder="Type your mesage here..."
             sx={{ fieldset: { border: "none" } }}
-            value={message}
-            onChange={e => setMessage(e.target.value)}
+            inputRef={inputRef}
           />
-
           <IconButton>
             <MicIcon />
           </IconButton>

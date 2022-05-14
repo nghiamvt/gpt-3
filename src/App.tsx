@@ -18,7 +18,7 @@ function App() {
             <Grid item md={4} display={{ xs: "none", md: "flex" }}>
               <SideBar />
             </Grid>
-            <Grid item md={8}>
+            <Grid item md={8} height="100%">
               <Chat />
             </Grid>
           </Grid>
