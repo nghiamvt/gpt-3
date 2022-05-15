@@ -91,12 +91,14 @@ function ChatHeader() {
           <Typography variant="subtitle1" fontWeight={500} lineHeight={1.2}>
             {`${model.name} (${model.engine})`}
           </Typography>
-          <Typography variant="caption" color={grey[500]}>
-            {`${model.level} - ${model.desc}`}
-          </Typography>
+          <Hidden mdDown>
+            <Typography variant="caption" color={grey[500]}>
+              {`${model.level} - ${model.desc}`}
+            </Typography>
+          </Hidden>
         </Stack>
       </Stack>
-      <Stack direction="row">
+      <Stack direction="row" display={{ xs: "none", sm: "flex" }}>
         <IconButton>
           <PhoneOutlinedIcon />
         </IconButton>
