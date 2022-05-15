@@ -16,6 +16,7 @@ const Chat: React.FunctionComponent<unknown> = () => {
   const bottomRef = React.useRef<HTMLDivElement>(null);
 
   const [isYourTurn, setIsYourTurn] = React.useState(true);
+  const [inputValue, setInputValue] = React.useState("");
 
   React.useLayoutEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -23,24 +24,19 @@ const Chat: React.FunctionComponent<unknown> = () => {
 
   React.useEffect(() => {
     if (!isYourTurn && model.engine !== Engine.DAVINCI) {
-      sendRequest({
-        engine: model.engine,
-        prompt: inputRef.current?.value || "",
-      }).then(res => {
-        addMessage({
-          message: res.choices[0].text,
-          created: res.created,
-        });
+      sendRequest({ engine: model.engine, prompt: inputValue }).then(res => {
+        addMessage({ message: res.choices[0].text, created: res.created });
         setIsYourTurn(true);
       });
     }
-  }, [isYourTurn, model.engine, addMessage]);
+  }, [isYourTurn, model.engine, addMessage, inputValue]);
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!inputRef.current) return;
 
     addMessage({ message: inputRef.current.value });
+    setInputValue(inputRef.current.value);
     inputRef.current.value = "";
     setIsYourTurn(false);
   };
