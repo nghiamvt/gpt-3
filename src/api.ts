@@ -12,6 +12,7 @@ export type Model = {
   name: string;
   engine: Engine;
   price: number;
+  level: string;
   avatar: string;
   status: Status;
 };
@@ -20,6 +21,7 @@ export const Models = [
     name: "Ada",
     engine: Engine.ADA,
     price: 0.0008,
+    level: "Junior",
     avatar: "/img/avatar/1.png",
     status: Status.ONLINE,
   },
@@ -27,6 +29,7 @@ export const Models = [
     name: "Babbage",
     engine: Engine.BABBAGE,
     price: 0.0012,
+    level: "Senior",
     avatar: "/img/avatar/2.png",
     status: Status.ONLINE,
   },
@@ -34,6 +37,7 @@ export const Models = [
     name: "Curie",
     engine: Engine.CURIE,
     price: 0.006,
+    level: "Principal",
     avatar: "/img/avatar/3.png",
     status: Status.ONLINE,
   },
@@ -41,6 +45,7 @@ export const Models = [
     name: "Davinci",
     engine: Engine.DAVINCI,
     price: 0.06,
+    level: "Expert - 🏝 Vacationing",
     avatar: "/img/avatar/4.png",
     status: Status.BUSY,
   },
@@ -69,7 +74,7 @@ export type Response = {
   }[];
 };
 
-export const sendMessage = async ({
+export const sendRequest = async ({
   engine = Engine.ADA,
   prompt,
   temperature = 0.5,

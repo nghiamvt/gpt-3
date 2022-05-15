@@ -17,7 +17,7 @@ const Message: FC<PropsWithChildren<MessageProps>> = ({
   return (
     <Paper
       sx={{
-        color: "#fff",
+        color: isMine ? "#fff" : "#000",
         width: "fit-content",
         maxWidth: "65%",
         padding: "0.75rem 1rem",
