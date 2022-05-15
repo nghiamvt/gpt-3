@@ -65,6 +65,7 @@ export const useAppContext = () => {
         isResponse: !!message.created,
         created: message.created || Math.round(new Date().getTime() / 1000),
       };
+
       setState(s => {
         const engineMessages = s.messages[s.model.engine] || [];
         return {
@@ -87,10 +88,16 @@ export const useAppContext = () => {
     [setLocalData, setState, state.model.engine],
   );
 
+  const lastMsgWith = (engine: Engine): Message["message"] => {
+    const msgByEngine = state.messages[engine] || [];
+    return msgByEngine[msgByEngine.length - 1]?.message;
+  };
+
   return {
     model,
     setModel,
     messages,
     addMessage,
+    lastMsgWith,
   };
 };

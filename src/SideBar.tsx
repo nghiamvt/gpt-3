@@ -12,7 +12,7 @@ import { useAppContext } from './context';
 export type SideBarProps = {};
 
 const SideBar: FunctionComponent<SideBarProps> = () => {
-  const { model, setModel } = useAppContext();
+  const { model, setModel, lastMsgWith } = useAppContext();
   return (
     <Stack width="100%">
       <Stack
@@ -34,8 +34,6 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
       <Stack flexGrow={1} spacing={2} px={1}>
         <List>
           {Models.map((item, index) => {
-            const lastMsg =
-              "Hey John, I am looking for the best admin template. Could you please help me to find it out?";
             return (
               <ListItem
                 disablePadding
@@ -54,7 +52,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.name}
-                    secondary={lastMsg}
+                    secondary={lastMsgWith(item.engine) || item.level}
                     secondaryTypographyProps={{
                       overflow: "hidden",
                       textOverflow: "ellipsis",

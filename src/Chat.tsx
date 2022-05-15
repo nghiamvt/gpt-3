@@ -71,7 +71,7 @@ const Chat: React.FunctionComponent<unknown> = () => {
             </Stack>
           );
         })}
-        {!isYourTurn && (
+        {!isYourTurn && model.engine !== Engine.DAVINCI && (
           <Stack direction={"row"} spacing={2}>
             <Avatar src={model.avatar} sx={{ height: 32, width: 32 }} />
             <Message isTyping />
