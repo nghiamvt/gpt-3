@@ -83,16 +83,16 @@ function ChatHeader() {
       >
         <Hidden mdUp>
           <IconButton onClick={toggleDrawer}>
-            <MenuIcon fontSize="large" />{" "}
+            <MenuIcon fontSize="large" />
           </IconButton>
         </Hidden>
         <Avatar alt={model.name} src={model.avatar} status={model.status} />
         <Stack>
           <Typography variant="subtitle1" fontWeight={500} lineHeight={1.2}>
-            {model.name}
+            {`${model.name} (${model.engine})`}
           </Typography>
           <Typography variant="caption" color={grey[500]}>
-            {model.level}
+            {`${model.level} - ${model.desc}`}
           </Typography>
         </Stack>
       </Stack>

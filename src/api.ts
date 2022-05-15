@@ -12,6 +12,7 @@ export type Model = {
   name: string;
   engine: Engine;
   price: number;
+  desc: string;
   level: string;
   avatar: string;
   status: Status;
@@ -22,6 +23,7 @@ export const Models = [
     engine: Engine.ADA,
     price: 0.0008,
     level: "Junior",
+    desc: "The fastest model with simple tasks at lowest cost.",
     avatar: "/img/avatar/1.png",
     status: Status.ONLINE,
   },
@@ -30,6 +32,7 @@ export const Models = [
     engine: Engine.BABBAGE,
     price: 0.0012,
     level: "Senior",
+    desc: "Capable of straightforward tasks, very fast, and lower cost.",
     avatar: "/img/avatar/2.png",
     status: Status.ONLINE,
   },
@@ -37,6 +40,7 @@ export const Models = [
     name: "Curie",
     engine: Engine.CURIE,
     price: 0.006,
+    desc: "Very capable, but faster and lower cost than Davinci.",
     level: "Principal",
     avatar: "/img/avatar/3.png",
     status: Status.ONLINE,
@@ -45,6 +49,7 @@ export const Models = [
     name: "Davinci",
     engine: Engine.DAVINCI,
     price: 0.06,
+    desc: "Most powerful. Can do any task with less context.",
     level: "Expert - 🏝 Vacationing",
     avatar: "/img/avatar/4.png",
     status: Status.BUSY,
