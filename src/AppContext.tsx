@@ -1,6 +1,8 @@
 import * as React from 'react';
 import createPersistedState from 'use-persisted-state';
 
+import { useMediaQuery, useTheme } from '@mui/material';
+
 import { Engine, Model, Models } from './api';
 
 export type Message = {
@@ -9,6 +11,7 @@ export type Message = {
   isResponse?: boolean;
 };
 type AppContextState = {
+  isDrawerOpen: boolean;
   model: Model;
   messages: {
     [key in Engine]?: Message[];
@@ -32,6 +35,7 @@ export const AppProvider: React.FC<React.PropsWithChildren<unknown>> = ({
 }) => {
   const [localData] = useMessages({});
   const [state, setState] = React.useState({
+    isDrawerOpen: false,
     model: Models[0],
     messages: localData,
   });
@@ -45,11 +49,13 @@ export const AppProvider: React.FC<React.PropsWithChildren<unknown>> = ({
 export const useAppContext = () => {
   const [, setLocalData] = useMessages({});
   const { state, setState } = React.useContext(AppContext) || {};
+  const theme = useTheme();
+  const mdUp = useMediaQuery(theme.breakpoints.up("md"));
+
   if (!state || !setState) {
     throw new Error("useAppContext must be used within a AppProvider");
   }
 
-  const model = state.model;
   const setModel = (engine: Engine) => {
     setState(s => ({
       ...s,
@@ -57,7 +63,6 @@ export const useAppContext = () => {
     }));
   };
 
-  const messages = state.messages[state.model.engine] || [];
   const addMessage = React.useCallback(
     (message: Message) => {
       const newMsg = {
@@ -93,10 +98,17 @@ export const useAppContext = () => {
     return msgByEngine[msgByEngine.length - 1]?.message;
   };
 
+  const toggleDrawer = () => {
+    if (mdUp) return;
+    setState(s => ({ ...s, isDrawerOpen: !s.isDrawerOpen }));
+  };
+
   return {
-    model,
+    isDrawerOpen: state.isDrawerOpen,
+    toggleDrawer,
+    model: state.model,
     setModel,
-    messages,
+    messages: state.messages[state.model.engine] || [],
     addMessage,
     lastMsgWith,
   };

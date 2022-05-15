@@ -5,9 +5,8 @@ import MicIcon from '@mui/icons-material/Mic';
 import { IconButton, OutlinedInput, Paper, Stack } from '@mui/material';
 
 import { Engine, sendRequest } from './api';
+import { useAppContext } from './AppContext';
 import Avatar from './Avatar';
-import ChatHeader from './ChatHeader';
-import { useAppContext } from './context';
 import Message from './Message';
 
 const Chat: React.FunctionComponent<unknown> = () => {
@@ -47,8 +46,7 @@ const Chat: React.FunctionComponent<unknown> = () => {
   };
 
   return (
-    <Stack bgcolor="#F7F7F8" height="100%">
-      <ChatHeader />
+    <>
       <Stack
         flexGrow={1}
         p={2}
@@ -97,7 +95,7 @@ const Chat: React.FunctionComponent<unknown> = () => {
           </IconButton>
         </form>
       </Paper>
-    </Stack>
+    </>
   );
 };
 

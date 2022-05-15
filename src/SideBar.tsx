@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React from 'react';
 
 import {
     List, ListItem, ListItemAvatar, ListItemButton, ListItemText, OutlinedInput, Stack
@@ -6,13 +6,11 @@ import {
 import { grey } from '@mui/material/colors';
 
 import { Models } from './api';
+import { useAppContext } from './AppContext';
 import Avatar, { AvatarProps, Status } from './Avatar';
-import { useAppContext } from './context';
 
-export type SideBarProps = {};
-
-const SideBar: FunctionComponent<SideBarProps> = () => {
-  const { model, setModel, lastMsgWith } = useAppContext();
+export default function SideBar() {
+  const { model, setModel, lastMsgWith, toggleDrawer } = useAppContext();
   return (
     <Stack width="100%">
       <Stack
@@ -32,7 +30,7 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
         />
       </Stack>
       <Stack flexGrow={1} spacing={2} px={1}>
-        <List>
+        <List onClick={toggleDrawer}>
           {Models.map((item, index) => {
             return (
               <ListItem
@@ -67,6 +65,4 @@ const SideBar: FunctionComponent<SideBarProps> = () => {
       </Stack>
     </Stack>
   );
-};
-
-export default SideBar;
+}
